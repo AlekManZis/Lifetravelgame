@@ -7,40 +7,29 @@ let player, obstacles = [], bonuses = [], ads = [];
 let isGameOver = false, isSlowedDown = false;
 let speedMultiplier = 1;
 
-// Préchargement des ressources (images, sons, etc.)
+// Chargement des ressources (images, sons, etc.)
 const assets = {
     images: {},
     sounds: {}
 };
 
-// Fonction pour précharger les images
-function preloadImages(imageUrls, callback) {
-    let loadedImages = 0;
-    const totalImages = imageUrls.length;
+// Charger les images du jeu, y compris les sous-catégories comme obstacles et bonus
+Object.keys(gameSettings).forEach(category => {
+    if (gameSettings[category].imageUrl) {
+        assets.images[category] = new Image();
+        assets.images[category].src = gameSettings[category].imageUrl;
+    }
+});
 
-    imageUrls.forEach((url, index) => {
-        const img = new Image();
-        img.src = url;
-        img.onload = () => {
-            loadedImages++;
-            if (loadedImages === totalImages) {
-                callback();
-            }
-        };
-        assets.images[Object.keys(gameSettings)[index]] = img;
-    });
-}
+Object.keys(gameSettings.obstacles).forEach(obstacle => {
+    assets.images[obstacle] = new Image();
+    assets.images[obstacle].src = gameSettings.obstacles[obstacle].imageUrl;
+});
 
-// Liste des images à précharger
-const imageUrls = Object.keys(gameSettings).map(category => gameSettings[category].imageUrl);
-
-// Fonction principale de démarrage après le préchargement des images
-function startAfterPreload() {
-    init();
-}
-
-// Préchargement des images
-preloadImages(imageUrls, startAfterPreload);
+Object.keys(gameSettings.bonuses).forEach(bonus => {
+    assets.images[bonus] = new Image();
+    assets.images[bonus].src = gameSettings.bonuses[bonus].imageUrl;
+});
 
 // Charger les sons
 Object.keys(gameSettings.sounds).forEach(key => {
@@ -164,3 +153,4 @@ function updatePlayer() {
 }
 
 // Initialisation du jeu
+init();
