@@ -13,44 +13,66 @@ const assets = {
     sounds: {}
 };
 
+let allResourcesLoaded = [];
+
 // Charger les images du jeu, y compris les sous-catégories comme obstacles et bonus
 Object.keys(gameSettings).forEach(category => {
     if (gameSettings[category].imageUrl) {
         assets.images[category] = new Image();
         assets.images[category].src = gameSettings[category].imageUrl;
+        allResourcesLoaded.push(new Promise((resolve, reject) => {
+            assets.images[category].onload = resolve;
+            assets.images[category].onerror = reject;
+        }));
     }
 });
 
 Object.keys(gameSettings.obstacles).forEach(obstacle => {
     assets.images[obstacle] = new Image();
     assets.images[obstacle].src = gameSettings.obstacles[obstacle].imageUrl;
+    allResourcesLoaded.push(new Promise((resolve, reject) => {
+        assets.images[obstacle].onload = resolve;
+        assets.images[obstacle].onerror = reject;
+    }));
 });
 
 Object.keys(gameSettings.bonuses).forEach(bonus => {
     assets.images[bonus] = new Image();
     assets.images[bonus].src = gameSettings.bonuses[bonus].imageUrl;
+    allResourcesLoaded.push(new Promise((resolve, reject) => {
+        assets.images[bonus].onload = resolve;
+        assets.images[bonus].onerror = reject;
+    }));
 });
 
 // Charger les sons
 Object.keys(gameSettings.sounds).forEach(key => {
     assets.sounds[key] = new Audio(gameSettings.sounds[key]);
+    allResourcesLoaded.push(new Promise((resolve, reject) => {
+        assets.sounds[key].oncanplaythrough = resolve;
+        assets.sounds[key].onerror = reject;
+    }));
 });
 
 // Initialisation du jeu
 function init() {
-    canvas = document.getElementById('gameCanvas');
-    ctx = canvas.getContext('2d');
-    player = {
-        width: gameSettings.player.width,
-        height: gameSettings.player.height,
-        x: canvas.width / 2 - gameSettings.player.width / 2,
-        y: canvas.height - gameSettings.player.height - 10,
-        speed: gameSettings.player.speed,
-        health: gameSettings.player.maxHealth,
-        dx: 0,
-    };
-    bindEvents();
-    showTutorial();
+    Promise.all(allResourcesLoaded).then(() => {
+        canvas = document.getElementById('gameCanvas');
+        ctx = canvas.getContext('2d');
+        player = {
+            width: gameSettings.player.width,
+            height: gameSettings.player.height,
+            x: canvas.width / 2 - gameSettings.player.width / 2,
+            y: canvas.height - gameSettings.player.height - 10,
+            speed: gameSettings.player.speed,
+            health: gameSettings.player.maxHealth,
+            dx: 0,
+        };
+        bindEvents();
+        showTutorial();
+    }).catch(error => {
+        console.error("Erreur de chargement des ressources", error);
+    });
 }
 
 // Liaison des événements (touches et boutons)
@@ -114,7 +136,7 @@ function drawRoad() {
     let roadWidth = canvas.width * 0.8;
     let roadX = (canvas.width - roadWidth) / 2;
     roadY += player.speed * speedMultiplier;
-    if (roadY >= canvas.height) roadY = 0;
+    if (roadY >= canvas.height) roadY -= canvas.height;
     ctx.drawImage(assets.images.road, roadX, roadY, roadWidth, canvas.height);
     ctx.drawImage(assets.images.road, roadX, roadY - canvas.height, roadWidth, canvas.height);
 }

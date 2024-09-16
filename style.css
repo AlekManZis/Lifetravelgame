@@ -136,3 +136,18 @@ canvas {
 .hidden {
     display: none;
 }
+
+@media (orientation: landscape) {
+    #controls, #health-distance-container, #score-timer-container {
+        bottom: 10%;
+        left: 5%;
+        width: 90%;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    #health-distance-container, #score-timer-container {
+        top: 90%;  /* Adjusted for better visibility */
+        width: 30%; /* Smaller width on landscape */
+    }
+}
