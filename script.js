@@ -119,13 +119,28 @@ function drawRoad() {
     ctx.drawImage(assets.images.road, roadX, roadY - canvas.height, roadWidth, canvas.height);
 }
 
+
 // Gestion des obstacles et bonus
 function updateObstacles() {
-    // Logique pour générer et gérer les obstacles
+    obstacles.forEach(obstacle => {
+        obstacle.y += gameSettings.obstacles.initialSpeed;
+        if (obstacle.y > canvas.height) {
+            obstacles.shift(); // Retirer les obstacles hors de l'écran
+        } else {
+            ctx.drawImage(assets.images[obstacle.type], obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        }
+    });
 }
 
 function updateBonuses() {
-    // Logique pour générer et gérer les bonus
+    bonuses.forEach(bonus => {
+        bonus.y += gameSettings.obstacles.initialSpeed;
+        if (bonus.y > canvas.height) {
+            bonuses.shift(); // Retirer les bonus hors de l'écran
+        } else {
+            ctx.drawImage(assets.images[bonus.type], bonus.x, bonus.y, bonus.width, bonus.height);
+        }
+    });
 }
 
 // Mise à jour du joueur
