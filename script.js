@@ -7,29 +7,40 @@ let player, obstacles = [], bonuses = [], ads = [];
 let isGameOver = false, isSlowedDown = false;
 let speedMultiplier = 1;
 
-// Chargement des ressources (images, sons, etc.)
+// Préchargement des ressources (images, sons, etc.)
 const assets = {
     images: {},
     sounds: {}
 };
 
-// Charger les images du jeu, y compris les sous-catégories comme obstacles et bonus
-Object.keys(gameSettings).forEach(category => {
-    if (gameSettings[category].imageUrl) {
-        assets.images[category] = new Image();
-        assets.images[category].src = gameSettings[category].imageUrl;
-    }
-});
+// Fonction pour précharger les images
+function preloadImages(imageUrls, callback) {
+    let loadedImages = 0;
+    const totalImages = imageUrls.length;
 
-Object.keys(gameSettings.obstacles).forEach(obstacle => {
-    assets.images[obstacle] = new Image();
-    assets.images[obstacle].src = gameSettings.obstacles[obstacle].imageUrl;
-});
+    imageUrls.forEach((url, index) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+            loadedImages++;
+            if (loadedImages === totalImages) {
+                callback();
+            }
+        };
+        assets.images[Object.keys(gameSettings)[index]] = img;
+    });
+}
 
-Object.keys(gameSettings.bonuses).forEach(bonus => {
-    assets.images[bonus] = new Image();
-    assets.images[bonus].src = gameSettings.bonuses[bonus].imageUrl;
-});
+// Liste des images à précharger
+const imageUrls = Object.keys(gameSettings).map(category => gameSettings[category].imageUrl);
+
+// Fonction principale de démarrage après le préchargement des images
+function startAfterPreload() {
+    init();
+}
+
+// Préchargement des images
+preloadImages(imageUrls, startAfterPreload);
 
 // Charger les sons
 Object.keys(gameSettings.sounds).forEach(key => {
@@ -68,8 +79,10 @@ function bindEvents() {
 
 // Fonction pour réinitialiser le zoom après avoir appuyé sur les boutons de direction
 function resetZoom() {
-    document.getElementById('left-button').style.transform = "scale(1)";
-    document.getElementById('right-button').style.transform = "scale(1)";
+    setTimeout(function() {
+        document.getElementById('left-button').style.transform = "scale(1)";
+        document.getElementById('right-button').style.transform = "scale(1)";
+    }, 500); // Retour à la taille initiale après 0.5 seconde
 }
 
 // Fonction de démarrage du jeu
@@ -121,11 +134,25 @@ function drawRoad() {
 
 // Gestion des obstacles et bonus
 function updateObstacles() {
-    // Logique pour générer et gérer les obstacles
+    obstacles.forEach(obstacle => {
+        obstacle.y += gameSettings.obstacles.initialSpeed;
+        if (obstacle.y > canvas.height) {
+            obstacles.shift(); // Retirer les obstacles hors de l'écran
+        } else {
+            ctx.drawImage(assets.images[obstacle.type], obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+        }
+    });
 }
 
 function updateBonuses() {
-    // Logique pour générer et gérer les bonus
+    bonuses.forEach(bonus => {
+        bonus.y += gameSettings.obstacles.initialSpeed;
+        if (bonus.y > canvas.height) {
+            bonuses.shift(); // Retirer les bonus hors de l'écran
+        } else {
+            ctx.drawImage(assets.images[bonus.type], bonus.x, bonus.y, bonus.width, bonus.height);
+        }
+    });
 }
 
 // Mise à jour du joueur
@@ -137,4 +164,3 @@ function updatePlayer() {
 }
 
 // Initialisation du jeu
-init();
