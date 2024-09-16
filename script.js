@@ -68,10 +68,8 @@ function bindEvents() {
 
 // Fonction pour réinitialiser le zoom après avoir appuyé sur les boutons de direction
 function resetZoom() {
-    setTimeout(function() {
-        document.getElementById('left-button').style.transform = "scale(1)";
-        document.getElementById('right-button').style.transform = "scale(1)";
-    }, 500); // Retour à la taille initiale après 0.5 seconde
+    document.getElementById('left-button').style.transform = "scale(1)";
+    document.getElementById('right-button').style.transform = "scale(1)";
 }
 
 // Fonction de démarrage du jeu
@@ -123,25 +121,11 @@ function drawRoad() {
 
 // Gestion des obstacles et bonus
 function updateObstacles() {
-    obstacles.forEach(obstacle => {
-        obstacle.y += gameSettings.obstacles.initialSpeed;
-        if (obstacle.y > canvas.height) {
-            obstacles.shift(); // Retirer les obstacles hors de l'écran
-        } else {
-            ctx.drawImage(assets.images[obstacle.type], obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-        }
-    });
+    // Logique pour générer et gérer les obstacles
 }
 
 function updateBonuses() {
-    bonuses.forEach(bonus => {
-        bonus.y += gameSettings.obstacles.initialSpeed;
-        if (bonus.y > canvas.height) {
-            bonuses.shift(); // Retirer les bonus hors de l'écran
-        } else {
-            ctx.drawImage(assets.images[bonus.type], bonus.x, bonus.y, bonus.width, bonus.height);
-        }
-    });
+    // Logique pour générer et gérer les bonus
 }
 
 // Mise à jour du joueur
