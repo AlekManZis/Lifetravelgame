@@ -1,0 +1,150 @@
+/* Styles généraux */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #87CEEB;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    overflow: hidden;
+}
+
+canvas {
+    background-color: #87CEEB;
+}
+
+/* Contrôles */
+#controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#controls button {
+    padding: 10px 20px;
+    margin: 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    opacity: 0.7; 
+}
+
+
+#controls button:hover {
+    opacity: 1; /* Rends les boutons entièrement opaques lorsqu'ils sont survolés */
+}
+
+.direction-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 120px;
+}
+
+.direction-buttons button {
+    padding: 10px;
+    font-size: 18px;
+}
+
+/* Barre de santé et distance */
+#health-distance-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 300px;
+}
+
+#health-container {
+    width: 100%;
+    height: 25px;
+    background-color: #ddd;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#health-bar {
+    width: 100%;
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    transition: width 0.3s;
+}
+
+#distance-container {
+    font-size: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Affichage du score et du timer */
+#score-timer-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    text-align: right;
+}
+
+#score-container, #timer-container {
+    font-size: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+/* Panneaux publicitaires */
+.ad-banner-1, .ad-banner-2 {
+    background-size: contain;
+    width: 100px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ad-banner-1 {
+    background-image: url('https://i.imgur.com/fPzBf4z.png');
+}
+
+.ad-banner-2 {
+    background-image: url('https://i.imgur.com/kzz29P1.jpeg');
+}
+
+/* Overlays (Modals et Tutoriel) */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}

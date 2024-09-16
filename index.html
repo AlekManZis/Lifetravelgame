@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course vers les Chutes d'Ekom Nkam</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <!-- Contrôles -->
+        <div id="controls">
+            <button id="start-button" data-lang="start">Démarrer</button>
+            <div class="direction-buttons">
+                <button id="left-button">←</button>
+                <button id="right-button">→</button>
+            </div>
+        </div>
+
+        <!-- Barre de santé et distance -->
+        <div id="health-distance-container">
+            <div id="health-container">
+                <div id="health-bar"></div>
+            </div>
+            <div id="distance-container">
+                <span data-lang="distance">Distance restante :</span> <span id="distance">5000</span> mètres
+            </div>
+        </div>
+
+        <!-- Affichage du score et du timer -->
+        <div id="score-timer-container">
+            <div id="score-container">
+                <span data-lang="score">Score :</span> <span id="score">0</span>
+            </div>
+            <div id="timer-container">
+                <span data-lang="time">Temps :</span> <span id="timer">0:00</span>
+            </div>
+        </div>
+
+        <!-- Tutoriel -->
+        <div id="tutorial" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 data-lang="tutorial_title">Bienvenue !</h2>
+                <p data-lang="tutorial_text">Utilisez les boutons gauche et droite pour diriger votre voiture et éviter les obstacles. Collectez des bonus pour aller plus vite.</p>
+                <button id="close-tutorial">X</button>
+            </div>
+        </div>
+
+        <!-- Modal de partage et de réduction -->
+        <div id="modal" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 data-lang="congrats">Félicitations !</h2>
+                <p data-lang="reach_destination">Vous avez atteint les Chutes d'Ekom Nkam.</p>
+                <button id="share-button" data-lang="share">Partager sur Facebook</button>
+                <p id="discount-message" class="hidden"></p>
+            </div>
+        </div>
+
+        <!-- Modal de succès après partage -->
+        <div id="success-modal" class="overlay hidden">
+            <div class="overlay-content">
+                <h2 data-lang="thank_you">Merci pour le partage !</h2>
+                <p id="final-discount-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="customization.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
