@@ -15,7 +15,7 @@ const assets = {
     sounds: {},
 };
 
-// Charger les images du jeu
+// Charger les images du jeu, y compris les sous-catégories comme obstacles et bonus
 Object.keys(gameSettings).forEach(category => {
     if (gameSettings[category].imageUrl) {
         assets.images[category] = new Image();
@@ -23,7 +23,6 @@ Object.keys(gameSettings).forEach(category => {
     }
 });
 
-// Charger les sous-catégories comme les obstacles et bonus
 Object.keys(gameSettings.obstacles).forEach(obstacle => {
     assets.images[obstacle] = new Image();
     assets.images[obstacle].src = gameSettings.obstacles[obstacle].imageUrl;
@@ -61,10 +60,18 @@ function bindEvents() {
     document.getElementById('start-button').addEventListener('click', startGame);
     document.getElementById('left-button').addEventListener('touchstart', moveLeft);
     document.getElementById('right-button').addEventListener('touchstart', moveRight);
+    document.getElementById('left-button').addEventListener('touchend', resetZoom);
+    document.getElementById('right-button').addEventListener('touchend', resetZoom);
     document.getElementById('close-tutorial').addEventListener('click', closeTutorial);
     document.getElementById('share-button').addEventListener('click', shareOnFacebook);
     document.addEventListener('keydown', keyDown);
     document.addEventListener('keyup', keyUp);
+}
+
+// Fonction pour réinitialiser le zoom après avoir appuyé sur les boutons de direction
+function resetZoom() {
+    document.getElementById('left-button').style.transform = "scale(1)";
+    document.getElementById('right-button').style.transform = "scale(1)";
 }
 
 // Fonction de démarrage du jeu
@@ -83,6 +90,9 @@ function updateGame() {
     if (isGameOver) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Dessiner le background
+    drawBackground();
+
     // Dessiner la route avec un défilement en fonction de la vitesse du joueur
     drawRoad();
 
@@ -93,6 +103,11 @@ function updateGame() {
     updateScore();
 
     requestAnimationFrame(updateGame);
+}
+
+// Dessiner le background
+function drawBackground() {
+    ctx.drawImage(assets.images.background, 0, 0, canvas.width, canvas.height);
 }
 
 // Dessiner la route avec un défilement
