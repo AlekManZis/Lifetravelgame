@@ -1,4 +1,3 @@
-
 /* Styles généraux */
 body {
     margin: 0;
@@ -33,12 +32,13 @@ canvas {
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 80vw; /* Pour éviter les débordements */
 }
 
 #controls button {
-    padding: 1.5em 3em;
+    padding: 1em 2em; /* Réduction de la taille des boutons */
     margin: 10px 0;
-    font-size: 2em;
+    font-size: 1.5em;
     cursor: pointer;
     background-color: #4CAF50;
     color: white;
@@ -57,12 +57,12 @@ canvas {
 .direction-buttons {
     display: flex;
     justify-content: space-between;
-    width: 200px;
+    width: 180px;
 }
 
 .direction-buttons button {
-    padding: 1.5em;
-    font-size: 2.5em;
+    padding: 1.2em;
+    font-size: 2em;
 }
 
 /* Barre de santé et distance */
@@ -91,7 +91,7 @@ canvas {
 }
 
 #distance-container {
-    font-size: 1.5em;
+    font-size: 1.2em;
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px;
     border-radius: 5px;
@@ -106,7 +106,7 @@ canvas {
 }
 
 #score-container, #timer-container {
-    font-size: 1.5em;
+    font-size: 1.2em;
     background-color: rgba(255, 255, 255, 0.7);
     padding: 10px;
     margin-bottom: 5px;
@@ -135,4 +135,41 @@ canvas {
 
 .hidden {
     display: none;
+}
+
+/* Media Queries pour écrans mobiles */
+@media only screen and (max-width: 600px) {
+    #controls button {
+        width: 80%; /* Ajustement des boutons pour mobiles */
+        font-size: 1.2em;
+        padding: 0.8em 1.5em;
+    }
+
+    #health-distance-container, #score-timer-container {
+        font-size: 1em;
+    }
+
+    #health-container {
+        height: 4vh;
+    }
+
+    #distance-container, #score-container, #timer-container {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (max-width: 600px) and (orientation: landscape) {
+    #controls {
+        flex-direction: row;
+        max-width: 100vw;
+        bottom: 2%;
+    }
+
+    .direction-buttons {
+        width: 150px;
+    }
+
+    #controls button {
+        font-size: 1em;
+    }
 }
