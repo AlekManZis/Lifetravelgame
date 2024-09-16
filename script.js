@@ -6,13 +6,11 @@ let score = 0, distanceRemaining = gameSettings.totalDistance;
 let player, obstacles = [], bonuses = [], ads = [];
 let isGameOver = false, isSlowedDown = false;
 let speedMultiplier = 1;
-let languageData = {};
-let currentLanguage = gameSettings.defaultLanguage;
 
 // Chargement des ressources (images, sons, etc.)
 const assets = {
     images: {},
-    sounds: {},
+    sounds: {}
 };
 
 // Charger les images du jeu, y compris les sous-catégories comme obstacles et bonus
@@ -115,7 +113,7 @@ let roadY = 0;
 function drawRoad() {
     let roadWidth = canvas.width * 0.8;
     let roadX = (canvas.width - roadWidth) / 2;
-    roadY += player.speed * speedMultiplier; // Défilement de la route
+    roadY += player.speed * speedMultiplier;
     if (roadY >= canvas.height) roadY = 0;
     ctx.drawImage(assets.images.road, roadX, roadY, roadWidth, canvas.height);
     ctx.drawImage(assets.images.road, roadX, roadY - canvas.height, roadWidth, canvas.height);
@@ -137,9 +135,6 @@ function updatePlayer() {
     if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
     ctx.drawImage(assets.images.player, player.x, player.y, player.width, player.height);
 }
-
-// Autres fonctions (mise à jour du score, gestion des événements clavier, collisions, etc.)
-// ...
 
 // Initialisation du jeu
 init();

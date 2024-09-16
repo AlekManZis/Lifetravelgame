@@ -13,19 +13,21 @@ body {
 
 #game-container {
     position: relative;
-    width: 800px;
-    height: 600px;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
 }
 
 canvas {
     background-color: #87CEEB;
+    width: 100%;
+    height: 100%;
 }
 
 /* Contrôles */
 #controls {
     position: absolute;
-    bottom: 20px;
+    bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -34,49 +36,49 @@ canvas {
 }
 
 #controls button {
-    padding: 10px 20px;
-    margin: 5px 0;
-    font-size: 16px;
+    padding: 1.5em 3em;
+    margin: 10px 0;
+    font-size: 2em;
     cursor: pointer;
     background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 5px;
-    opacity: 0.65; /* Opacité par défaut à 65% */
-    transition: opacity 0.3s ease, transform 0.1s ease; /* Ajout de transition fluide et animation */
+    border-radius: 10px;
+    opacity: 0.65;
+    transition: opacity 0.3s ease, transform 0.1s ease;
 }
 
 #controls button:hover, #controls button:active {
-    opacity: 1; /* Opaque lorsqu'on survole ou appuie */
-    transform: scale(1.1); /* Zoom léger lorsqu'on appuie */
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 /* Boutons de direction */
 .direction-buttons {
     display: flex;
     justify-content: space-between;
-    width: 120px;
+    width: 200px;
 }
 
 .direction-buttons button {
-    padding: 10px;
-    font-size: 18px;
+    padding: 1.5em;
+    font-size: 2.5em;
 }
 
 /* Barre de santé et distance */
 #health-distance-container {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 300px;
+    top: 2%;
+    left: 2%;
+    width: 25vw;
 }
 
 #health-container {
     width: 100%;
-    height: 25px;
+    height: 5vh;
     background-color: #ddd;
     border: 1px solid #000;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-bottom: 10px;
 }
 
@@ -84,48 +86,31 @@ canvas {
     width: 100%;
     height: 100%;
     background-color: #4CAF50;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: width 0.3s;
 }
 
 #distance-container {
-    font-size: 20px;
+    font-size: 1.5em;
     background-color: rgba(255, 255, 255, 0.7);
-    padding: 5px;
+    padding: 10px;
     border-radius: 5px;
 }
 
 /* Affichage du score et du timer */
 #score-timer-container {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 2%;
+    right: 2%;
     text-align: right;
 }
 
 #score-container, #timer-container {
-    font-size: 20px;
+    font-size: 1.5em;
     background-color: rgba(255, 255, 255, 0.7);
-    padding: 5px;
+    padding: 10px;
     margin-bottom: 5px;
     border-radius: 5px;
-}
-
-/* Panneaux publicitaires */
-.ad-banner-1, .ad-banner-2 {
-    background-size: contain;
-    width: 100px;
-    height: 50px;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.ad-banner-1 {
-    background-image: url('https://i.imgur.com/fPzBf4z.png');
-}
-
-.ad-banner-2 {
-    background-image: url('https://i.imgur.com/kzz29P1.jpeg');
 }
 
 /* Overlays (Modals et Tutoriel) */
@@ -143,7 +128,7 @@ canvas {
 
 .overlay-content {
     background-color: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     text-align: center;
 }

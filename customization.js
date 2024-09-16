@@ -1,124 +1,119 @@
+
 const gameSettings = {
     player: {
         width: 50,
         height: 100,
-        aspectRatio: 0.5, // Ratio largeur/hauteur
-        imageUrl: 'https://i.imgur.com/RtdISHR.png' // URL de l'image de la voiture du joueur
+        aspectRatio: 0.5,
+        imageUrl: 'https://i.imgur.com/RtdISHR.png' 
     },
     obstacles: {
         car: {
             width: 50,
             height: 100,
-            aspectRatio: 0.5, // Ratio 50/100
-            imageUrl: 'https://i.imgur.com/CBXxyli.png' // URL de l'image d'une voiture obstacle
+            aspectRatio: 0.5,
+            imageUrl: 'https://i.imgur.com/CBXxyli.png'
         },
         truck: {
             width: 60,
             height: 150,
-            aspectRatio: 0.4, // Ratio 60/150
-            imageUrl: 'https://i.imgur.com/rH7O2ta.png' // URL de l'image d'un camion obstacle
+            aspectRatio: 0.4,
+            imageUrl: 'https://i.imgur.com/rH7O2ta.png'
         },
         hole: {
             width: 30,
             height: 30,
-            aspectRatio: 1, // Ratio 1:1 pour un nid de poule
-            imageUrl: 'https://i.imgur.com/ZRHqtfS.png' // URL de l'image d'un nid de poule
+            aspectRatio: 1,
+            imageUrl: 'https://i.imgur.com/ZRHqtfS.png'
         }
     },
     road: {
-        imageUrl: 'https://i.imgur.com/b0K3pui.jpeg'  // Ajouter cette ligne pour la route
+        imageUrl: 'https://i.imgur.com/b0K3pui.jpeg'
     },
     background: {
-        imageUrl: 'https://i.imgur.com/3urQ4cc.jpeg'  // Ajouter cette ligne pour le background
+        imageUrl: 'https://i.imgur.com/3urQ4cc.jpeg'
     },
     bonuses: {
         scoreBoost: {
             width: 30,
             height: 30,
-            aspectRatio: 1, // Ratio carré
-            imageUrl: 'https://i.imgur.com/hZAYLk7.png' // URL pour un bonus d'augmentation de score
+            aspectRatio: 1,
+            imageUrl: 'https://i.imgur.com/hZAYLk7.png'
         },
         healthPack: {
             width: 30,
             height: 30,
-            aspectRatio: 1, // Ratio carré
-            imageUrl: 'https://i.imgur.com/xBRd8TR.png' // URL pour un bonus de pack de santé
+            aspectRatio: 1,
+            imageUrl: 'https://i.imgur.com/xBRd8TR.png'
         },
         speedBoost: {
             width: 30,
             height: 30,
-            aspectRatio: 1, // Ratio carré
-            imageUrl: 'https://i.imgur.com/FcWwet9.png' // URL pour un bonus de boost de vitesse
+            aspectRatio: 1,
+            imageUrl: 'https://i.imgur.com/FcWwet9.png'
         },
         cashBonus: {
             width: 30,
             height: 30,
-            aspectRatio: 1, // Ratio carré
-            imageUrl: 'https://i.imgur.com/hZAYLk7.png' // URL pour un bonus d'argent ou coupon
+            aspectRatio: 1,
+            imageUrl: 'https://i.imgur.com/hZAYLk7.png'
         }
-    },
-    road: {
-        width: 800,
-        height: 600,
-        aspectRatio: 1.33, // Ratio 4:3 pour l'arrière-plan de la route
-        imageUrl: 'https://i.imgur.com/b0K3pui.jpeg' // URL de l'image de la route
     },
     effects: {
         smokeEffect: {
             width: 50,
             height: 50,
-            aspectRatio: 1, // Ratio 1:1
-            imageUrl: 'https://i.imgur.com/d10DfnL.png' // URL pour l'effet de fumée lorsque la voiture est endommagée
+            aspectRatio: 1,
+            imageUrl: 'https://i.imgur.com/d10DfnL.png'
         }
     },
     ads: {
         ad1: {
             width: 100,
             height: 50,
-            imageUrl: 'https://i.imgur.com/fPzBf4z.png' // Publicité LifeTravel
+            imageUrl: 'https://i.imgur.com/fPzBf4z.png'
         },
         ad2: {
             width: 100,
             height: 50,
-            imageUrl: 'https://i.imgur.com/kzz29P1.jpeg' // Publicité secondaire (autre publicité)
+            imageUrl: 'https://i.imgur.com/kzz29P1.jpeg'
         }
     },
     sounds: {
-        backgroundMusic: 'assets/sounds/background_music.mp3', // Musique de fond du jeu
-        crashSound: 'assets/sounds/crash.mp3', // Son d'accident
-        gameOverSound: 'assets/sounds/gameover.mp3', // Son lorsque la partie est perdue
-        victorySound: 'assets/sounds/victory.mp3', // Son lorsque la partie est gagnée
-        holeHitSound: 'assets/sounds/hole_hit.mp3', // Son lorsque la voiture touche un nid de poule
-        powerUpSound: 'assets/sounds/powerup.mp3', // Son général pour les bonus
-        speedBoostSound: 'assets/sounds/speed_boost.mp3', // Son spécifique pour le boost de vitesse
-        cashBonusSound: 'assets/sounds/cash_bonus.mp3' // Son spécifique pour le bonus d'argent/coupon
+        backgroundMusic: 'assets/sounds/background_music.mp3',
+        crashSound: 'assets/sounds/crash.mp3',
+        gameOverSound: 'assets/sounds/gameover.mp3',
+        victorySound: 'assets/sounds/victory.mp3',
+        holeHitSound: 'assets/sounds/hole_hit.mp3',
+        powerUpSound: 'assets/sounds/powerup.mp3',
+        speedBoostSound: 'assets/sounds/speed_boost.mp3',
+        cashBonusSound: 'assets/sounds/cash_bonus.mp3'
     },
-    totalDistance: 5000, // Distance totale à parcourir
-    maxDiscount: 15, // Réduction maximale en pourcentage
-    baseReductionTimeFactor: 0.1, // Facteur de réduction du pourcentage par seconde
-    defaultLanguage: 'fr', // Langue par défaut
+    totalDistance: 5000,
+    maxDiscount: 15,
+    baseReductionTimeFactor: 0.1,
+    defaultLanguage: 'fr',
     player: {
-        maxHealth: 100, // Santé maximale du joueur
-        speed: 5, // Vitesse du joueur
-        slowdownFactor: 0.5, // Facteur de ralentissement quand la voiture touche un nid de poule
-        slowdownDuration: 1500 // Durée en ms du ralentissement
+        maxHealth: 100,
+        speed: 5,
+        slowdownFactor: 0.5,
+        slowdownDuration: 1500
     },
     obstacles: {
-        initialSpawnInterval: 2000, // Intervalle de spawn des obstacles au début
-        minSpawnInterval: 500, // Intervalle minimum entre les spawns des obstacles
-        initialSpeed: 4, // Vitesse des obstacles au début
-        maxSpeed: 10, // Vitesse maximale des obstacles
-        difficultyIncreaseRate: 0.95, // Facteur de réduction de l'intervalle de spawn au fur et à mesure
-        speedIncreaseRate: 1.05, // Facteur d'augmentation de la vitesse des obstacles
-        types: ['car', 'truck', 'hole'] // Types d'obstacles disponibles
+        initialSpawnInterval: 2000,
+        minSpawnInterval: 500,
+        initialSpeed: 4,
+        maxSpeed: 10,
+        difficultyIncreaseRate: 0.95,
+        speedIncreaseRate: 1.05,
+        types: ['car', 'truck', 'hole']
     },
     bonuses: {
-        spawnInterval: 7000, // Intervalle de spawn des bonus
-        speedBoostMultiplier: 2, // Multiplicateur de vitesse du boost de vitesse
-        speedBoostDuration: 3000, // Durée en ms du boost de vitesse
-        types: ['scoreBoost', 'healthPack', 'speedBoost', 'cashBonus'] // Types de bonus disponibles
+        spawnInterval: 7000,
+        speedBoostMultiplier: 2,
+        speedBoostDuration: 3000,
+        types: ['scoreBoost', 'healthPack', 'speedBoost', 'cashBonus']
     },
     ads: {
-        frequency: 10000 // Fréquence d'apparition des publicités
+        frequency: 10000
     }
 };
