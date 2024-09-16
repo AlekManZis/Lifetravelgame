@@ -1,3 +1,4 @@
+
 /* Styles généraux */
 body {
     margin: 0;
@@ -34,19 +35,6 @@ canvas {
     align-items: center;
 }
 
-/* Adaptabilité des boutons en fonction de l'orientation */
-@media (orientation: landscape) {
-    #controls {
-        flex-direction: row;
-    }
-}
-
-@media (orientation: portrait) {
-    #controls {
-        flex-direction: column;
-    }
-}
-
 #controls button {
     padding: 1.5em 3em;
     margin: 10px 0;
@@ -63,4 +51,88 @@ canvas {
 #controls button:hover, #controls button:active {
     opacity: 1;
     transform: scale(1.1);
+}
+
+/* Boutons de direction */
+.direction-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+}
+
+.direction-buttons button {
+    padding: 1.5em;
+    font-size: 2.5em;
+}
+
+/* Barre de santé et distance */
+#health-distance-container {
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    width: 25vw;
+}
+
+#health-container {
+    width: 100%;
+    height: 5vh;
+    background-color: #ddd;
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#health-bar {
+    width: 100%;
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 10px;
+    transition: width 0.3s;
+}
+
+#distance-container {
+    font-size: 1.5em;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Affichage du score et du timer */
+#score-timer-container {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    text-align: right;
+}
+
+#score-container, #timer-container {
+    font-size: 1.5em;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+/* Overlays (Modals et Tutoriel) */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
 }

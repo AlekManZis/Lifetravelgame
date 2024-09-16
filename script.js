@@ -1,3 +1,4 @@
+
 let canvas, ctx;
 let gameInterval, obstacleInterval, bonusInterval, adInterval, timerInterval;
 let startTime, elapsedTime = 0;
@@ -6,32 +7,36 @@ let player, obstacles = [], bonuses = [], ads = [];
 let isGameOver = false, isSlowedDown = false;
 let speedMultiplier = 1;
 
+// Chargement des ressources (images, sons, etc.)
 const assets = {
     images: {},
     sounds: {}
 };
 
-// Charger les images du jeu
-function loadAssets() {
-    let totalImages = Object.keys(gameSettings).length;
-    let loadedImages = 0;
+// Charger les images du jeu, y compris les sous-catégories comme obstacles et bonus
+Object.keys(gameSettings).forEach(category => {
+    if (gameSettings[category].imageUrl) {
+        assets.images[category] = new Image();
+        assets.images[category].src = gameSettings[category].imageUrl;
+    }
+});
 
-    Object.keys(gameSettings).forEach(category => {
-        if (gameSettings[category].imageUrl) {
-            let img = new Image();
-            img.src = gameSettings[category].imageUrl;
-            img.onload = () => {
-                loadedImages++;
-                if (loadedImages === totalImages) {
-                    init(); // Toutes les images sont chargées, démarrer le jeu
-                }
-            };
-            assets.images[category] = img;
-        }
-    });
-}
+Object.keys(gameSettings.obstacles).forEach(obstacle => {
+    assets.images[obstacle] = new Image();
+    assets.images[obstacle].src = gameSettings.obstacles[obstacle].imageUrl;
+});
 
-// Initialiser le jeu
+Object.keys(gameSettings.bonuses).forEach(bonus => {
+    assets.images[bonus] = new Image();
+    assets.images[bonus].src = gameSettings.bonuses[bonus].imageUrl;
+});
+
+// Charger les sons
+Object.keys(gameSettings.sounds).forEach(key => {
+    assets.sounds[key] = new Audio(gameSettings.sounds[key]);
+});
+
+// Initialisation du jeu
 function init() {
     canvas = document.getElementById('gameCanvas');
     ctx = canvas.getContext('2d');
@@ -42,10 +47,10 @@ function init() {
         y: canvas.height - gameSettings.player.height - 10,
         speed: gameSettings.player.speed,
         health: gameSettings.player.maxHealth,
-        dx: 0,  // Mouvement horizontal (gauche/droite)
+        dx: 0,
     };
     bindEvents();
-    showTutorial();  // Afficher le tutoriel au démarrage
+    showTutorial();
 }
 
 // Liaison des événements (touches et boutons)
@@ -53,41 +58,43 @@ function bindEvents() {
     document.getElementById('start-button').addEventListener('click', startGame);
     document.getElementById('left-button').addEventListener('touchstart', moveLeft);
     document.getElementById('right-button').addEventListener('touchstart', moveRight);
-    document.getElementById('left-button').addEventListener('touchend', resetMovement);
-    document.getElementById('right-button').addEventListener('touchend', resetMovement);
+    document.getElementById('left-button').addEventListener('touchend', resetZoom);
+    document.getElementById('right-button').addEventListener('touchend', resetZoom);
     document.getElementById('close-tutorial').addEventListener('click', closeTutorial);
     document.getElementById('share-button').addEventListener('click', shareOnFacebook);
     document.addEventListener('keydown', keyDown);
     document.addEventListener('keyup', keyUp);
 }
 
-// Réinitialiser le mouvement après avoir relâché les boutons de direction
-function resetMovement() {
-    player.dx = 0;
+// Fonction pour réinitialiser le zoom après avoir appuyé sur les boutons de direction
+function resetZoom() {
+    document.getElementById('left-button').style.transform = "scale(1)";
+    document.getElementById('right-button').style.transform = "scale(1)";
 }
 
-// Démarrer le jeu
+// Fonction de démarrage du jeu
 function startGame() {
-    document.getElementById('start-button').style.display = 'none';  // Masquer le bouton "Démarrer"
-    document.getElementById('tutorial').style.display = 'none';      // Masquer le tutoriel
+    document.getElementById('start-button').style.display = 'none'; // Cache le bouton "Démarrer"
     startTime = Date.now();
     gameInterval = requestAnimationFrame(updateGame);
     obstacleInterval = setInterval(spawnObstacle, gameSettings.obstacles.initialSpawnInterval);
     bonusInterval = setInterval(spawnBonus, gameSettings.bonuses.spawnInterval);
     adInterval = setInterval(spawnAd, gameSettings.ads.frequency);
-    timerInterval = setInterval(updateTimer, 1000);  // Met à jour le timer chaque seconde
+    timerInterval = setInterval(updateTimer, 1000);
 }
 
-// Mise à jour du jeu à chaque image
+// Mise à jour du jeu
 function updateGame() {
     if (isGameOver) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);  // Effacer le canvas
-
+    // Dessiner le background
     drawBackground();
+
+    // Dessiner la route avec un défilement en fonction de la vitesse du joueur
     drawRoad();
 
-    // Mettre à jour et dessiner les éléments du jeu
+    // Mettre à jour les éléments du jeu (joueur, obstacles, bonus)
     updatePlayer();
     updateObstacles();
     updateBonuses();
@@ -96,67 +103,12 @@ function updateGame() {
     requestAnimationFrame(updateGame);
 }
 
-// Mise à jour du joueur
-function updatePlayer() {
-    player.x += player.dx;  // Mouvement horizontal
-    if (player.x < 0) player.x = 0;  // Limite à gauche
-    if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;  // Limite à droite
-
-    ctx.drawImage(assets.images.player, player.x, player.y, player.width, player.height);  // Dessiner le joueur
-}
-
-// Mise à jour des obstacles
-function updateObstacles() {
-    obstacles.forEach(obstacle => {
-        obstacle.y += gameSettings.obstacles.initialSpeed;
-        if (obstacle.y > canvas.height) {
-            obstacles.shift();  // Supprimer l'obstacle s'il sort de l'écran
-        } else {
-            ctx.drawImage(assets.images[obstacle.type], obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-        }
-    });
-}
-
-// Mise à jour des bonus
-function updateBonuses() {
-    bonuses.forEach(bonus => {
-        bonus.y += gameSettings.obstacles.initialSpeed;
-        if (bonus.y > canvas.height) {
-            bonuses.shift();  // Supprimer le bonus s'il sort de l'écran
-        } else {
-            ctx.drawImage(assets.images[bonus.type], bonus.x, bonus.y, bonus.width, bonus.height);
-        }
-    });
-}
-
-// Affichage du score et des informations
-function updateScore() {
-    score += 1;  // Incrémentation du score
-    document.getElementById('score').innerText = score;
-    distanceRemaining -= player.speed * speedMultiplier;
-    document.getElementById('distance').innerText = Math.max(0, distanceRemaining);
-}
-
-// Timer du jeu
-function updateTimer() {
-    let currentTime = Date.now();
-    elapsedTime = (currentTime - startTime) / 1000;  // Temps écoulé en secondes
-    document.getElementById('timer').innerText = formatTime(elapsedTime);
-}
-
-// Formater le temps (en minutes et secondes)
-function formatTime(seconds) {
-    let minutes = Math.floor(seconds / 60);
-    let secs = Math.floor(seconds % 60);
-    return minutes + ":" + (secs < 10 ? "0" : "") + secs;
-}
-
-// Dessiner le fond
+// Dessiner le background
 function drawBackground() {
     ctx.drawImage(assets.images.background, 0, 0, canvas.width, canvas.height);
 }
 
-// Dessiner la route
+// Dessiner la route avec un défilement
 let roadY = 0;
 function drawRoad() {
     let roadWidth = canvas.width * 0.8;
@@ -167,86 +119,22 @@ function drawRoad() {
     ctx.drawImage(assets.images.road, roadX, roadY - canvas.height, roadWidth, canvas.height);
 }
 
-// Générer un obstacle
-function spawnObstacle() {
-    let obstacleType = gameSettings.obstacles.types[Math.floor(Math.random() * gameSettings.obstacles.types.length)];
-    let obstacle = {
-        type: obstacleType,
-        x: Math.random() * (canvas.width - gameSettings.obstacles[obstacleType].width),
-        y: -gameSettings.obstacles[obstacleType].height,
-        width: gameSettings.obstacles[obstacleType].width,
-        height: gameSettings.obstacles[obstacleType].height,
-    };
-    obstacles.push(obstacle);
+// Gestion des obstacles et bonus
+function updateObstacles() {
+    // Logique pour générer et gérer les obstacles
 }
 
-// Générer un bonus
-function spawnBonus() {
-    let bonusType = gameSettings.bonuses.types[Math.floor(Math.random() * gameSettings.bonuses.types.length)];
-    let bonus = {
-        type: bonusType,
-        x: Math.random() * (canvas.width - gameSettings.bonuses[bonusType].width),
-        y: -gameSettings.bonuses[bonusType].height,
-        width: gameSettings.bonuses[bonusType].width,
-        height: gameSettings.bonuses[bonusType].height,
-    };
-    bonuses.push(bonus);
+function updateBonuses() {
+    // Logique pour générer et gérer les bonus
 }
 
-// Générer une publicité (optionnel, peut être désactivé)
-function spawnAd() {
-    let ad = {
-        x: Math.random() * (canvas.width - 100),
-        y: -50,
-        width: 100,
-        height: 50,
-        imageUrl: gameSettings.ads.ad1.imageUrl
-    };
-    ads.push(ad);
-    setTimeout(() => { ads.shift(); }, 10000);  // Supprimer la pub après 10 secondes
+// Mise à jour du joueur
+function updatePlayer() {
+    player.x += player.dx;
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+    ctx.drawImage(assets.images.player, player.x, player.y, player.width, player.height);
 }
 
-// Gestion des touches de direction (clavier)
-function keyDown(e) {
-    if (e.key === 'ArrowLeft') {
-        moveLeft();
-    } else if (e.key === 'ArrowRight') {
-        moveRight();
-    }
-}
-
-// Réinitialiser le mouvement lors du relâchement des touches
-function keyUp(e) {
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        resetMovement();
-    }
-}
-
-// Déplacer à gauche
-function moveLeft() {
-    player.dx = -player.speed;
-}
-
-// Déplacer à droite
-function moveRight() {
-    player.dx = player.speed;
-}
-
-// Afficher le tutoriel au début du jeu
-function showTutorial() {
-    document.getElementById('tutorial').classList.remove('hidden');
-}
-
-// Fermer le tutoriel
-function closeTutorial() {
-    document.getElementById('tutorial').classList.add('hidden');
-}
-
-// Partager sur Facebook (implémentation optionnelle)
-function shareOnFacebook() {
-    // Logique de partage à implémenter
-    alert("Partage sur Facebook");
-}
-
-// Charger les ressources et initialiser le jeu
-loadAssets();
+// Initialisation du jeu
+init();
